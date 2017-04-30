@@ -5357,17 +5357,23 @@ inline void gcode_M105() {
    */
   inline void gcode_M106() {
     uint16_t s = code_seen('S') ? code_value_ushort() : 255,
-             p = code_seen('P') ? code_value_ushort() : 0;
+             p = code_seen('P') ? code_value_ushort() : -1;
     NOMORE(s, 255);
     if (p < FAN_COUNT) fanSpeeds[p] = s;
+	else
+      for( int i = 0; i < FAN_COUNT; i++)
+		fanSpeeds[i] = s;
   }
 
   /**
    * M107: Fan Off
    */
   inline void gcode_M107() {
-    uint16_t p = code_seen('P') ? code_value_ushort() : 0;
+    uint16_t p = code_seen('P') ? code_value_ushort() : -1;
     if (p < FAN_COUNT) fanSpeeds[p] = 0;
+	else
+	  for( int i = 0; i < FAN_COUNT; i++)
+		fanSpeeds[i] = 0;
   }
 
 #endif // FAN_COUNT > 0
